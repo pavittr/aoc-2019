@@ -8,21 +8,25 @@ import (
 	"strings"
 )
 
-func toIntArray(data string) ([]int, error) {
+func toIntArray(data string) []int {
+	return stringToIntArray(data, "\n")
+
+}
+
+func stringToIntArray(input string, sep string) []int {
 
 	intArray := make([]int, 0)
 
-	for _, str := range strings.Split(data, "\n") {
+	for _, str := range strings.Split(input, sep) {
 		newInt, err := strconv.Atoi(str)
 
 		if err != nil {
-			return nil, err
+			return nil
 		}
 		intArray = append(intArray, newInt)
 	}
 
-	return intArray, nil
-
+	return intArray
 }
 
 func loadFileAsString(fileName string) string {
@@ -36,4 +40,8 @@ func loadFileAsString(fileName string) string {
 		return fmt.Sprintf("Reader err: %+v", err)
 	}
 	return strings.TrimSpace(string(bytes))
+}
+
+func csvStringToIntArray(input string) []int {
+	return stringToIntArray(input, ",")
 }
